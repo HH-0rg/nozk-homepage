@@ -4,7 +4,7 @@ import { MetamaskActions, MetaMaskContext } from '../hooks';
 import {
   connectSnap,
   getSnap,
-  sendHello,
+  // sendHello,
   shouldDisplayReconnectButton,
 } from '../utils';
 import {
@@ -119,7 +119,26 @@ const Index = () => {
 
   const handleSendHelloClick = async () => {
     try {
-      await sendHello();
+      // await sendHello();
+      const [from] = (await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      })) as string[];
+
+      if (!from) {
+        throw new Error('No account selected');
+      }
+
+      await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [
+          {
+            from,
+            to: '0x0000000000000000000000000000000000000000',
+            value: '0x00',
+            data: '0x1',
+          },
+        ],
+      });
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
