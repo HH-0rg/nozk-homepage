@@ -1,3 +1,4 @@
+/* eslint-disable no-eq-null */
 /* eslint-disable import/no-extraneous-dependencies */
 import {
   // OnTransactionHandler,
@@ -47,9 +48,7 @@ export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
   }
 };
 
-export const onTransaction: any = async (
-  transaction: Record<string, unknown>,
-) => {
+export const onTransaction: any = async ({ transaction }) => {
   console.log('superman', transaction);
 
   // const insights: { type: string; params?: Json } = {
@@ -70,17 +69,24 @@ export const onTransaction: any = async (
     };
   }
 
-  const data = remove0x(transaction.data);
+  console.log('superman2', transaction);
+  // const data = remove0x(transaction.data);
+  if (transaction.data == null) {
+    console.log('superman null');
+  }
+  const data = transaction.data.split('0x')[1];
+  console.log('superman3', data);
 
-  const transactionData = data.split('0x')[1];
+  const transactionData = data.split('0x')[0];
   const functionSignature = transactionData.slice(0, 8);
+  console.log('superman4', transactionData, functionSignature);
 
   console.log(transactionData, functionSignature);
 
   // let info = '';
 
   const info = await fetch(
-    `http://sin3point14.net:8000/description?contract_addr=${transactionData}&four_byte=${functionSignature}`,
+    `https://api.deth.kanavgupta.xyz/description?contract_addr=${transaction.to}&four_byte=${functionSignature}`,
   );
   console.log(info);
 

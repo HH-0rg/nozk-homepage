@@ -5,6 +5,7 @@ import { connectSnap, getThemePreference, getSnap } from '../utils';
 import { HeaderButtons } from './Buttons';
 import { SnapLogo } from './SnapLogo';
 import { Toggle } from './Toggle';
+import Logo from './logo.webp';
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -62,8 +63,9 @@ export const Header = ({
   return (
     <HeaderWrapper>
       <LogoWrapper>
-        <SnapLogo color={theme.colors.icon.default} size={36} />
-        <Title>template-snap</Title>
+        {/* <SnapLogo color={theme.colors.icon.default} size={36} /> */}
+        <img src={Logo} alt="logo" width="36" height="36" />
+        <Title>SSS</Title>
       </LogoWrapper>
       <RightContainer>
         <Toggle
